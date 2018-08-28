@@ -15,13 +15,44 @@ $(document).ready(function(){
 	
 	var n =0;
 	var n1 =0;
-		var newRowArr =[]
-		var newColArr =[]
-		var newRowArr1 =[]
-		var newColArr1 =[]
-		var newCrossArr =[]
-		var newCrossArr1=[]
-		var interval
+	var newRowArr =[]
+	var newColArr =[]
+	var newRowArr1 =[]
+	var newColArr1 =[]
+	var newCrossArr =[]
+	var newCrossArr1=[]
+	var interval
+
+	function pretty_time_string(num) {
+	    return ( num < 10 ? "0" : "" ) + num;
+  	}
+	function get_elapsed_time_string(total_seconds) {
+  
+
+	  var hours = Math.floor(total_seconds / 3600);
+	  total_seconds = total_seconds % 3600;
+
+	  var minutes = Math.floor(total_seconds / 60);
+	  total_seconds = total_seconds % 60;
+
+	  var seconds = Math.floor(total_seconds);
+
+	  // Pad the minutes and seconds with leading zeros, if required
+	  hours = pretty_time_string(hours);
+	  minutes = pretty_time_string(minutes);
+	  seconds = pretty_time_string(seconds);
+
+	  // Compose the string for display
+	  var currentTimeString = hours + ":" + minutes + ":" + seconds;
+
+	  return currentTimeString;
+	}
+
+	var elapsed_seconds = 0;
+	setInterval(function() {
+	  elapsed_seconds = elapsed_seconds + 1;
+	  $('.timer').text(get_elapsed_time_string(elapsed_seconds));
+	}, 1000);
 
 	function randomColorPicker(){
 		var r = Math.floor(Math.random() * 256)
@@ -32,7 +63,7 @@ $(document).ready(function(){
 
 
 	}
-
+	$()
 
 	function generateCardColumn(bingo){
 		var arrCol1=[]
@@ -120,7 +151,12 @@ $(document).ready(function(){
 			if(arr.length){
 			//console.log(arr)
 				num = Math.floor(Math.random() * arr.length)
-				$box.append('<h2> '+ arr[num]+'</h2>')
+				$box.append('<h2 aria-label="'+arr[num]+'"> '+ arr[num]+'</h2>')
+				if ('speechSynthesis' in window) {
+				    var msg = new SpeechSynthesisUtterance(arr[num]);
+				    window.speechSynthesis.speak(msg);
+				}
+
 				$box.children().last().css('left', function(){ return $(this).offset().left; })
              		.animate({"left":"0px"}, "slow")
 				randArr.push(arr[num])
