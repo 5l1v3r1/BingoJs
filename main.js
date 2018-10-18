@@ -49,7 +49,7 @@ $(document).ready(function(){
 	}
 
 	var elapsed_seconds = 0;
-	setInterval(function() {
+	var clock = setInterval(function() {
 	  elapsed_seconds = elapsed_seconds + 1;
 	  $('.timer').text(get_elapsed_time_string(elapsed_seconds));
 	}, 1000);
@@ -60,10 +60,7 @@ $(document).ready(function(){
 		var b = Math.floor(Math.random() * 256)
 		var color =  "rgb("+r+", "+g+", "+b+")"
 		return color
-
-
 	}
-	$()
 
 	function generateCardColumn(bingo){
 		var arrCol1=[]
@@ -315,10 +312,15 @@ $(document).ready(function(){
 					$('#1  .bingo .line05').addClass('yline')
 
 					$('#1  .bingo').css({"color" : "red"})
-					$('#newGame').on('click',function(){
-						location. reload(true);
-					})
-					$('#newGame').show()
+
+					if($('#card2').is(":hidden")){
+						$('#newGame').on('click',function(){
+							location. reload(true);
+						})
+						$('#newGame').show()
+						clearInterval(interval)
+						clearInterval(clock)
+					}
 				}else{
 					
 				}
@@ -342,7 +344,8 @@ $(document).ready(function(){
 						location. reload(true);
 					})
 					$('#newGame').show()
-					clearInterval(interval)
+					window.clearInterval(interval)
+					clearInterval(clock)
 				}else{
 					
 				}
